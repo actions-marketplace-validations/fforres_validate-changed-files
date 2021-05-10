@@ -1,5 +1,5 @@
-name: "Ensure Files Changed"
-description: "Ensure Files Changed"
+name: "Check Exact Files Changed"
+description: "Check Exact Files Changed"
 author: "fforres"
 
 inputs:
