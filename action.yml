@@ -12,6 +12,12 @@ inputs:
     description: "The way we are checking if files where modified. Options: 'exact' or 'contains'"
     required: false
     default: "exact"
+
+  fail-mode:
+    description: "If the action will trigger a flow error, or it will allow going. Options: 'hard' or 'soft'"
+    required: false
+    default: "soft"
+
   token:
     description: "The GitHub token used to create an authenticated client."
     required: true

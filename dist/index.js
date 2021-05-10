@@ -18113,15 +18113,27 @@ const globby = __nccwpck_require__(3398);
 const areSetsEqual = (a, b) =>
   a.size === b.size && [...a].every((value) => b.has(value));
 
+const failModes = ["soft", "hard"];
+const comparisonModes = ["contains", "exact"];
 async function run() {
+  // Variables
   const githubToken = core.getInput("token", { required: true });
   const filePatterns = JSON.parse(
     core.getInput("file-patterns", { required: true })
   );
   const comparisonMode =
     core.getInput("comparison-mode", { required: false }) || "contains";
+  const failMode = core.getInput("fail-mode", { required: false }) || "soft";
+
+  // Checks
   if (typeof filePatterns !== "object" || !filePatterns.length) {
     core.setFailed("Please fill in the correct file names");
+  }
+  if (!comparisonModes.includes((mode) => mode === comparisonMode)) {
+    core.setFailed(`Unsupported comparison mode "${comparisonMode}"`);
+  }
+  if (!failModes.includes((mode) => mode === failMode)) {
+    core.setFailed(`Unsupported fail mode "${failMode}"`);
   }
 
   const client = getOctokit(githubToken);
@@ -18160,10 +18172,14 @@ async function run() {
     if (areSetsEqual(changedFilesNamesSet, filesToCheckSet)) {
       core.setOutput("success", true);
     } else {
-      core.setFailed(`Please check your changed files.
-Expected: ${JSON.stringify(Array.from(changedFilesNamesSet), null, 2)}
-Actual: ${JSON.stringify(Array.from(changedFileNames), null, 2)}
-`);
+      if (failMode === "soft") {
+        core.setOutput("success", false);
+      } else {
+        core.setFailed(`Please check your changed files.
+  Expected: ${JSON.stringify(Array.from(changedFilesNamesSet), null, 2)}
+  Actual: ${JSON.stringify(Array.from(changedFileNames), null, 2)}
+  `);
+      }
     }
   } else if (comparisonMode === "contains") {
     const isAllIncluded = filePatterns.every(
@@ -18174,13 +18190,15 @@ Actual: ${JSON.stringify(Array.from(changedFileNames), null, 2)}
     if (isAllIncluded) {
       core.setOutput("success", true);
     } else {
-      core.setFailed(`Please check your changed files
+      if (failMode === "soft") {
+        core.setOutput("success", false);
+      } else {
+        core.setFailed(`Please check your changed files
 Expected: ${JSON.stringify(filePatterns, null, 2)}
 Actual: ${JSON.stringify(changedFileNames, null, 2)}
 `);
+      }
     }
-  } else {
-    core.setFailed(`Unsupported comparison mode "${comparisonMode}"`);
   }
 }
 
