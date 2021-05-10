@@ -11,4 +11,5 @@ jobs:
         uses: ./ #uses local latest version for testing purposes
         with:
           file-patterns: '["package.json"]'
+          comparison-mode: "exact"
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -18118,10 +18118,7 @@ async function run() {
   const filePatterns = JSON.parse(
     core.getInput("file-patterns", { required: true })
   );
-  const comparisonMode = JSON.parse(
-    core.getInput("comparison-mode", { required: false })
-  );
-  // exact
+  const comparisonMode = core.getInput("comparison-mode", { required: false });
   if (typeof filePatterns !== "object" || !filePatterns.length) {
     core.setFailed("Please fill in the correct file names");
   }
@@ -18156,7 +18153,6 @@ async function run() {
 
   const filesToCheck = await globby(filePatterns);
 
-  // let success = false;
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
     const filesToCheckSet = new Set(filesToCheck);
