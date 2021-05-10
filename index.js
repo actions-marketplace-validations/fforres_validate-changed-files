@@ -11,7 +11,8 @@ async function run() {
   const filePatterns = JSON.parse(
     core.getInput("file-patterns", { required: true })
   );
-  const comparisonMode = core.getInput("comparison-mode", { required: false });
+  const comparisonMode =
+    core.getInput("comparison-mode", { required: false }) || "contains";
   if (typeof filePatterns !== "object" || !filePatterns.length) {
     core.setFailed("Please fill in the correct file names");
   }

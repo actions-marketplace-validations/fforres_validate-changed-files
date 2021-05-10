@@ -1,20 +1,29 @@
-# Describe of the repository
-When you use a versioning system or package.
+# Check Exact Files Changed
 
-Some commit or pull request must need to include important file.
-(ex package.json or md file)
+This action checks that a pull requests contain changes to the files listed in
+the `file-patterns` array specified.
 
-If you write not include file and after deployed?
-That's a very tiring situation.
+It adds an option for "exact" comparison type, that will fail if the files changed do not match the `file-patterns` option
 
-So I want to prevent the above situation therefore just created this repo.
+### `file-patterns`
 
-## How to use
+A `JSON stringified` array of possible files. Supports [minimatch](https://github.com/isaacs/minimatch)
 
-Just simple like below that.
+### `comparison-type`
+
+- `exact`. If the files changed on the PR must exactly match the list of files provided on `file-patterns`
+- `contains`. If the files changed on the PR only has to contain the list of files provided on `file-patterns`
+
+### `token`
+
+The current github token
+
+Credit to [syeutyu/validate-changed-files](https://github.com/syeutyu/validate-changed-files) for providing the base code
+
+## Example
 
 ```yml
-name: 'build-test'
+name: "build-test"
 on:
   pull_request:
   push:
@@ -26,15 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
-      - uses: ./
+      - name: Check Exact Files Changed
+        uses: fforres/validate-changed-files@v1.0.3
         with:
-          file-names: '["package.json", "READMD.md"]'
-          github-token: {{ Token }}
+          file-patterns: '["package.json"]'
+          comparison-type: "exact"
+          token: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-The current Github action doesn't yet support an array type of input.
-
-So I used some trick.
-
-Just enclose an array string in quotation marks.
