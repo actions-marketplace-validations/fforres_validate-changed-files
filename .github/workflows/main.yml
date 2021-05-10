@@ -1,7 +1,19 @@
 on: push
 
 jobs:
-  hello_world_job:
+  default:
+    runs-on: ubuntu-latest
+    name: Run action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run action
+        uses: ./ #uses local latest version for testing purposes
+        with:
+          file-patterns: '["package.json"]'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  comparisonMode:
     runs-on: ubuntu-latest
     name: Run action
     steps:
@@ -12,4 +24,17 @@ jobs:
         with:
           file-patterns: '["package.json"]'
           comparison-mode: "exact"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  failMode:
+    runs-on: ubuntu-latest
+    name: Run action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run action
+        uses: ./ #uses local latest version for testing purposes
+        with:
+          file-patterns: '["package.json"]'
+          comparison-mode: "soft"
           token: ${{ secrets.GITHUB_TOKEN }}
