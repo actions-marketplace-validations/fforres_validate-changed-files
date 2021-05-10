@@ -18129,10 +18129,10 @@ async function run() {
   if (typeof filePatterns !== "object" || !filePatterns.length) {
     core.setFailed("Please fill in the correct file names");
   }
-  if (!comparisonModes.includes((mode) => mode === comparisonMode)) {
+  if (!comparisonModes.includes(comparisonMode)) {
     core.setFailed(`Unsupported comparison mode "${comparisonMode}"`);
   }
-  if (!failModes.includes((mode) => mode === failMode)) {
+  if (!failModes.includes(failMode)) {
     core.setFailed(`Unsupported fail mode "${failMode}"`);
   }
 
