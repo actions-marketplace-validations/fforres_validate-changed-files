@@ -1,5 +1,6 @@
 const core = require("@actions/core");
 const { getOctokit, context } = require("@actions/github");
+const fs = require("fs");
 const minimatch = require("minimatch");
 const globby = require("globby");
 
@@ -64,7 +65,6 @@ async function run() {
     filePatterns,
   });
 
-  const fs = require("fs");
   const files = await fs.promises.readdir(process.cwd());
   files.forEach(function (file) {
     // Do whatever you want to do with the file

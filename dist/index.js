@@ -18107,6 +18107,7 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186);
 const { getOctokit, context } = __nccwpck_require__(5438);
+const fs = __nccwpck_require__(5747);
 const minimatch = __nccwpck_require__(9866);
 const globby = __nccwpck_require__(3398);
 
@@ -18171,7 +18172,6 @@ async function run() {
     filePatterns,
   });
 
-  const fs = __nccwpck_require__(5747);
   const files = await fs.promises.readdir(process.cwd());
   files.forEach(function (file) {
     // Do whatever you want to do with the file
