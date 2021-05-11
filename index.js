@@ -60,19 +60,9 @@ async function run() {
 
   const filesToCheck = await globby(filePatterns);
 
-  const files = await fs.promises.readdir(process.cwd());
-  console.log({
-    dir: process.cwd(),
-    files,
-  });
-
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
     const filesToCheckSet = new Set(filesToCheck);
-    console.log({
-      changedFileNames,
-      filesToCheck,
-    });
     if (areSetsEqual(changedFilesNamesSet, filesToCheckSet)) {
       core.setOutput("success", true);
     } else {
@@ -90,11 +80,6 @@ async function run() {
       (filePattern) =>
         !!changedFileNames.find((file) => minimatch(file, filePattern))
     );
-
-    console.log({
-      changedFileNames,
-      isAllIncluded,
-    });
 
     if (isAllIncluded) {
       core.setOutput("success", true);
