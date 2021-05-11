@@ -66,10 +66,7 @@ async function run() {
   });
 
   const files = await fs.promises.readdir(process.cwd());
-  files.forEach(function (file) {
-    // Do whatever you want to do with the file
-    console.log("file", file);
-  });
+  console.log({ files });
 
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
