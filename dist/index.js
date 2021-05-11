@@ -18172,16 +18172,10 @@ async function run() {
   });
 
   const fs = __nccwpck_require__(5747);
-  fs.readdir(process.cwd(), function (err, files) {
-    //handling error
-    if (err) {
-      return console.log("Unable to scan directory: " + err);
-    }
-    //listing all files using forEach
-    files.forEach(function (file) {
-      // Do whatever you want to do with the file
-      console.log("file", file);
-    });
+  const files = await fs.promises.readdir(process.cwd());
+  files.forEach(function (file) {
+    // Do whatever you want to do with the file
+    console.log("file", file);
   });
 
   if (comparisonMode === "exact") {
