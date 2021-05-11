@@ -18167,6 +18167,7 @@ async function run() {
   const filesToCheck = await globby(filePatterns);
 
   console.log({
+    dir: process.cwd(),
     filePatterns,
   });
 
