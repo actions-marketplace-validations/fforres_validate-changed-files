@@ -60,13 +60,11 @@ async function run() {
 
   const filesToCheck = await globby(filePatterns);
 
+  const files = await fs.promises.readdir(process.cwd());
   console.log({
     dir: process.cwd(),
-    filePatterns,
+    files,
   });
-
-  const files = await fs.promises.readdir(process.cwd());
-  console.log({ files });
 
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
