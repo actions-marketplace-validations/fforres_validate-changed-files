@@ -18169,6 +18169,10 @@ async function run() {
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
     const filesToCheckSet = new Set(filesToCheck);
+    console.log({
+      changedFileNames,
+      filesToCheck,
+    });
     if (areSetsEqual(changedFilesNamesSet, filesToCheckSet)) {
       core.setOutput("success", true);
     } else {
@@ -18186,6 +18190,12 @@ async function run() {
       (filePattern) =>
         !!changedFileNames.find((file) => minimatch(file, filePattern))
     );
+
+    console.log({
+      changedFileNames,
+      filePatterns,
+      isAllIncluded,
+    });
 
     if (isAllIncluded) {
       core.setOutput("success", true);
