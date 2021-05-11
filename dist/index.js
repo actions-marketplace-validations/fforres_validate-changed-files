@@ -18166,6 +18166,10 @@ async function run() {
 
   const filesToCheck = await globby(filePatterns);
 
+  console.log({
+    filePatterns,
+  });
+
   if (comparisonMode === "exact") {
     const changedFilesNamesSet = new Set(changedFileNames);
     const filesToCheckSet = new Set(filesToCheck);
@@ -18193,7 +18197,6 @@ async function run() {
 
     console.log({
       changedFileNames,
-      filePatterns,
       isAllIncluded,
     });
 
